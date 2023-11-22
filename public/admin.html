@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="wrap">
+        <form id="addArticleForm">
+            <input type="text" id="title" name="title" placeholder="Title">
+            <textarea name="content" id="content" placeholder="Text"></textarea>
+            <button type="button" onclick="addArticle()">Add Article</button>
+        </form>
+    </div>
+
+    <script>
+       async function addArticle(){
+            const title = document.getElementById('title').value;
+            const content = document.getElementById('content').value;
+
+            const response = await fetch('http://localhost:3000/admin/add-article', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({title, content})
+            });
+
+            if(response.ok){
+                alert('Article added successfully');
+                document.getElementById('addArticleForm').reset();
+                window.location.href = '/';
+            }else{
+                alert(JSON.parse(response));
+            }
+        }
+    </script>
+</body>
+</html>
